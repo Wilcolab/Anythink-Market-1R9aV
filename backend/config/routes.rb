@@ -2,8 +2,10 @@
 Rails.application.routes.draw do
   root to: "application#root"
 
+  get '/health', to: 'application#health'
+
   scope :api, defaults: { format: :json } do
-    devise_for :users, controllers: { sessions: :sessions },
+    devise_for :users, controllers: { sessions: :sessions, registrations: :registrations },
                        path_names: { sign_in: :login }
 
     resource :user, only: %i[show update]
@@ -19,5 +21,7 @@ Rails.application.routes.draw do
     end
 
     resources :tags, only: [:index]
+
+    resources :ping, only: [:index]
   end
 end
